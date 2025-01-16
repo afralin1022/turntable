@@ -36,25 +36,25 @@ $(".turntable_btn").on("click", function () {
   rotating();
   $this.attr("disabled", "disabled");
 
-  // 3.8 秒後開始漸弱抽獎音效，確保完整播放 4 秒音效
+  // 3.8 秒後開始漸弱抽獎音效
   setTimeout(function () {
     fadeOutAudio(spinSound, 200); // 漸弱時間為 0.2 秒
   }, 3800);
 
-  // 4.2 秒後播放得獎音效
+  // 4.2 秒後顯示自訂彈窗並播放得獎音效
   setTimeout(function () {
     // 播放得獎音效
     winSound.currentTime = 0;
     winSound.play();
+
+    // 顯示自訂彈窗
+    showCustomAlert(prize);
 
     // 恢復按鈕
     $this.removeAttr("disabled");
     $(".list ul").removeClass("go");
     $(".polyline").removeClass("go");
     $(".circle circle").removeClass("go");
-
-    var prize = $(".list").find("li").eq(iEnd).find("p").html().replace("<br>", "");
-    alert("恭喜獲得：" + prize + "!!");
   }, 4200); // 4.2 秒動畫結束後觸發
 });
 
@@ -111,4 +111,17 @@ function fadeOutAudio(audio, duration) {
       clearInterval(fade); // 停止漸弱
     }
   }, interval);
+}
+
+// 自訂彈窗函式
+function showCustomAlert(prize) {
+  // 建立彈窗元素
+  var $alertBox = $('<div class="custom-alert"></div>');
+  $alertBox.text("恭喜獲得：" + prize.replace("<br>", "") + "!!");
+  $("body").append($alertBox);
+
+  // 動畫效果
+  $alertBox.fadeIn(300).delay(2000).fadeOut(300, function () {
+    $(this).remove(); // 移除彈窗
+  });
 }
