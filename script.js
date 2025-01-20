@@ -1,17 +1,47 @@
 //獎品項目
 var prize_list = [
-  { name: "專屬優惠", img: "https://cdn-icons-png.flaticon.com/512/1405/1405225.png" },
-  { name: "變形金剛", img: "https://cdn-icons-png.flaticon.com/512/7926/7926936.png" },
-  { name: "貝斯特鑄鐵鍋<br/>三件組", img: "https://cdn-icons-png.flaticon.com/512/3063/3063504.png" },
-  { name: "麗克特<br/>格子吐司機", img: "https://cdn-icons-png.flaticon.com/512/4353/4353006.png" },
-  { name: "折價券", img: "https://cdn-icons-png.flaticon.com/512/612/612885.png" },
-  { name: "佩佩豬<br/>紅包袋", img: "https://cdn-icons-png.flaticon.com/512/677/677721.png" },
-  { name: "迪士尼<br/>彩色隨手瓶", img: "https://cdn-icons-png.flaticon.com/512/4982/4982355.png" },
-  { name: "美國濕式熟成<br/>牛排(五入組)", img: "https://cdn-icons-png.flaticon.com/512/5854/5854248.png" },
+  {
+    name: "專屬優惠",
+    img: "https://cdn-icons-png.flaticon.com/512/1405/1405225.png",
+  },
+  {
+    name: "變形金剛",
+    img: "https://cdn-icons-png.flaticon.com/512/7926/7926936.png",
+  },
+  {
+    name: "貝斯特鑄鐵鍋<br/>三件組",
+    img: "https://cdn-icons-png.flaticon.com/512/3063/3063504.png",
+  },
+  {
+    name: "麗克特<br/>格子吐司機",
+    img: "https://cdn-icons-png.flaticon.com/512/4353/4353006.png",
+  },
+  {
+    name: "折價券",
+    img: "https://cdn-icons-png.flaticon.com/512/612/612885.png",
+  },
+  {
+    name: "佩佩豬<br/>紅包袋",
+    img: "https://cdn-icons-png.flaticon.com/512/677/677721.png",
+  },
+  {
+    name: "迪士尼<br/>彩色隨手瓶",
+    img: "https://cdn-icons-png.flaticon.com/512/4982/4982355.png",
+  },
+  {
+    name: "美國濕式熟成<br/>牛排(五入組)",
+    img: "https://cdn-icons-png.flaticon.com/512/5854/5854248.png",
+  },
 ];
 
 for (var i = 0; i <= 7; i++) {
-  $(".list ul").append("<li><p>" + prize_list[i].name + "</p><img src='" + prize_list[i].img + "'></li>");
+  $(".list ul").append(
+    "<li><p>" +
+      prize_list[i].name +
+      "</p><img src='" +
+      prize_list[i].img +
+      "'></li>"
+  );
 }
 
 // 音效設定
@@ -47,8 +77,8 @@ $(".turntable_btn").on("click", function () {
     winSound.currentTime = 0;
     winSound.play();
 
-    // 顯示自訂彈窗
-    showCustomAlert(prize);
+    // 顯示自訂底圖彈窗
+    showPrizePopup(prize);
 
     // 恢復按鈕
     $this.removeAttr("disabled");
@@ -113,15 +143,22 @@ function fadeOutAudio(audio, duration) {
   }, interval);
 }
 
-// 自訂彈窗函式
-function showCustomAlert(prize) {
-  // 建立彈窗元素
-  var $alertBox = $('<div class="custom-alert"></div>');
-  $alertBox.text("恭喜獲得：" + prize.replace("<br>", "") + "!!");
-  $("body").append($alertBox);
+// 顯示獎項彈窗函式
+function showPrizePopup(prize) {
+  // 建立底圖彈窗元素
+  var $popup = $('<div class="prize-popup"></div>');
+  var $popupContent = `
+    <div class="popup-content">
+      <h1>恭喜你中了</h1>
+      <h2>${prize.replace("<br>", "")} 獎！</h2>
+      <button class="close-popup">確定</button>
+    </div>
+  `;
+  $popup.html($popupContent);
+  $("body").append($popup);
 
-  // 動畫效果
-  $alertBox.fadeIn(300).delay(2000).fadeOut(300, function () {
-    $(this).remove(); // 移除彈窗
+  // 點擊關閉按鈕時移除彈窗
+  $popup.find(".close-popup").on("click", function () {
+    $popup.remove();
   });
 }

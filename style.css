@@ -212,3 +212,49 @@ section.turntable svg g.mark polyline {
 section.turntable svg g.bottom {
   fill: rgba(0, 0, 0, 0.4);
 }
+/* alert */
+.prize-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.popup-content h2 {
+  font-size: 20px;
+  color: #ff5722;
+  margin: 10px 0;
+}
+
+.popup-content .close-popup {
+  background: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.popup-content .close-popup:hover {
+  background: #45a049;
+}
