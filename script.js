@@ -1,47 +1,17 @@
 //獎品項目
 var prize_list = [
-  {
-    name: "專屬優惠",
-    img: "https://cdn-icons-png.flaticon.com/512/1405/1405225.png",
-  },
-  {
-    name: "變形金剛",
-    img: "https://cdn-icons-png.flaticon.com/512/7926/7926936.png",
-  },
-  {
-    name: "貝斯特鑄鐵鍋<br/>三件組",
-    img: "https://cdn-icons-png.flaticon.com/512/3063/3063504.png",
-  },
-  {
-    name: "麗克特<br/>格子吐司機",
-    img: "https://cdn-icons-png.flaticon.com/512/4353/4353006.png",
-  },
-  {
-    name: "折價券",
-    img: "https://cdn-icons-png.flaticon.com/512/612/612885.png",
-  },
-  {
-    name: "佩佩豬<br/>紅包袋",
-    img: "https://cdn-icons-png.flaticon.com/512/677/677721.png",
-  },
-  {
-    name: "迪士尼<br/>彩色隨手瓶",
-    img: "https://cdn-icons-png.flaticon.com/512/4982/4982355.png",
-  },
-  {
-    name: "美國濕式熟成<br/>牛排(五入組)",
-    img: "https://cdn-icons-png.flaticon.com/512/5854/5854248.png",
-  },
+  { name: "年獸征服者", description: "恭喜你成功驅趕了所有年獸！", img: "https://cdn-icons-png.flaticon.com/512/9087/9087851.png" },
+  { name: "春聯書法家", description: "無論是字醜還是字美，都貼得上牆！", img: "https://cdn-icons-png.flaticon.com/512/3938/3938712.png" },
+  { name: "鞭炮連放王", description: "你的鞭炮聲比隔壁還要響亮！", img: "https://cdn-icons-png.flaticon.com/512/2633/2633725.png" },
+  { name: "紅包支配者", description: "你收到的紅包，比支出還要多！", img: "https://cdn-icons-png.flaticon.com/512/18141/18141440.png" },
+  { name: "年夜飯掃盤王", description: "你是年夜飯的清盤小能手！", img: "https://cdn-icons-png.flaticon.com/512/1886/1886722.png" },
+  { name: "財神附體", description: "今年財運滾滾，必發大財！", img: "https://cdn-icons-png.flaticon.com/512/2844/2844043.png" },
+  { name: "撐爆新衣", description: "過年胖三斤，新衣都要買更大號！", img: "https://cdn-icons-png.flaticon.com/512/3703/3703380.png" },
+  { name: "守歲勇士", description: "熬過凌晨，絕不提前睡！", img: "https://cdn-icons-png.flaticon.com/512/570/570682.png" },
 ];
 
-for (var i = 0; i <= 7; i++) {
-  $(".list ul").append(
-    "<li><p>" +
-      prize_list[i].name +
-      "</p><img src='" +
-      prize_list[i].img +
-      "'></li>"
-  );
+for (var i = 0; i < prize_list.length; i++) {
+  $(".list ul").append("<li><p>" + prize_list[i].name + "</p><img src='" + prize_list[i].img + "'></li>");
 }
 
 // 音效設定
@@ -144,13 +114,18 @@ function fadeOutAudio(audio, duration) {
 }
 
 // 顯示獎項彈窗函式
-function showPrizePopup(prize) {
+function showPrizePopup(prizeIndex) {
+  // 獲取獎項名稱和說明
+  var prizeName = prize_list[prizeIndex].name;
+  var prizeDescription = prize_list[prizeIndex].description;
+
   // 建立底圖彈窗元素
   var $popup = $('<div class="prize-popup"></div>');
   var $popupContent = `
     <div class="popup-content">
       <h1>恭喜你中了</h1>
-      <h2>${prize.replace("<br>", "")} 獎！</h2>
+      <h2>${prizeName}</h2>
+      <p>${prizeDescription}</p>
       <button class="close-popup">確定</button>
     </div>
   `;
@@ -162,3 +137,15 @@ function showPrizePopup(prize) {
     $popup.remove();
   });
 }
+
+// 在抽獎結果處顯示彈窗
+setTimeout(function () {
+  winSound.play();
+  showPrizePopup(iEnd);
+}, 4200);
+
+function resizeTurntable(scale) {
+  const turntable = document.querySelector("section.turntable");
+  turntable.style.transform = `scale(${scale})`;
+}
+// resizeTurntable(1.08); 
