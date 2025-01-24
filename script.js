@@ -44,7 +44,8 @@ $(".turntable_btn").on("click", function () {
     // 停止轉盤音效
     fadeOutAudio(spinSound, 500);
 
-    // 播放中獎音效
+    // 播放中獎音效（重新生成 Audio 對象）
+    winSound = new Audio("./win.mp3"); // 解決多次播放問題
     playAudio(winSound);
 
     // 顯示彈窗
@@ -58,8 +59,8 @@ $(".turntable_btn").on("click", function () {
 
 // 播放音效的函式
 function playAudio(audio) {
-  audio.pause();
-  audio.currentTime = 0; // 確保從頭播放
+  audio.pause(); // 確保先停止
+  audio.currentTime = 0; // 從頭播放
   audio.volume = 1;
   audio.play();
 }
