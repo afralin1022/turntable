@@ -25,7 +25,7 @@
 }
 
 body {
-  background: linear-gradient(#ffac35, #ff3636);
+  background: linear-gradient(#881818, #c10000);
   width: 100vw;
   height: 100vh;
   overflow-y: hidden;
@@ -235,7 +235,8 @@ section.turntable svg g.bottom {
 }
 
 .popup-content {
-  background: #fff;
+  background: #a70000;
+  border: 6px ridge #ffad00;
   padding: 30px;
   border-radius: 10px;
   text-align: center;
@@ -243,18 +244,23 @@ section.turntable svg g.bottom {
 }
 
 .popup-content h1 {
-  font-size: 24px;
-  color: #333;
+  font-size: 1.5rem;
+  color: #fffae3;
 }
 
 .popup-content h2 {
-  font-size: 20px;
-  color: #ff5722;
+  font-size: 2.5rem;
+  color: #ffc90c;
   margin: 10px 0;
 }
 
+.popup-content p{
+  color: #fffae3;
+  margin: 10px 0 24px 0;
+}
+
 .popup-content .close-popup {
-  background: #4caf50;
+  background: #710000;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -268,10 +274,38 @@ section.turntable svg g.bottom {
 }
 
 .logo{
-  max-width: 320px;
+  max-width: 270px;
   opacity: 0.8;
 }
 
 .title{
-  width:100% ;
+  width:85%;
+  max-width: 600px;
+}
+
+@media screen and (max-width:768px) {
+  section.turntable{
+    max-width: 85%;
+    max-height: 85%;
+  }
+  .title{
+    max-width: 500px;
+  }
+}
+
+@media screen and (min-width:1024px) {
+  .pc-flex{
+    display: flex;
+    align-items: center;
+    max-width: 80%;
+  }
+  .pc-flex>.turntable{
+    width: 70%;
+  }
+  .pc-flex>div{
+    width: 30%;
+  }
+  .title{
+    width: 100%;
+  }
 }
