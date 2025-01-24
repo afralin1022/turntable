@@ -1,5 +1,5 @@
 // 獎品項目
-var prize_list = [
+const prizeList = [
   { name: "年獸征服者", description: "恭喜你成功驅趕了所有年獸！", img: "https://cdn-icons-png.flaticon.com/512/9087/9087851.png" },
   { name: "春聯書法家", description: "無論是字醜還是字美，都貼得上牆！", img: "https://cdn-icons-png.flaticon.com/512/3938/3938712.png" },
   { name: "鞭炮連放王", description: "你的鞭炮聲比隔壁還要響亮！", img: "https://cdn-icons-png.flaticon.com/512/2633/2633725.png" },
@@ -10,58 +10,73 @@ var prize_list = [
   { name: "守歲勇士", description: "熬過凌晨，絕不提前睡！", img: "https://cdn-icons-png.flaticon.com/512/570/570682.png" },
 ];
 
-// 動態生成獎品列表
-prize_list.forEach(function (prize) {
-  $(".list ul").append("<li><p>" + prize.name + "</p><img src='" + prize.img + "'></li>");
+// 初始化獎品列表
+const prizeListContainer = $(".list ul");
+prizeList.forEach((prize) => {
+  prizeListContainer.append(`<li><p>${prize.name}</p><img src='${prize.img}'></li>`);
 });
 
-// 預加載音效
-var spinSound = new Audio("./spin.mp3");
-var winSound = new Audio("./win.mp3");
-spinSound.load();
-winSound.load();
+// 音效設定
+const spinSound = new Audio("./spin.mp3");
+const winSound = new Audio("./win.mp3");
 
-var iEnd = -1; // 紀錄獎項索引
+// 抽獎結果索引
+let iEnd = -1;
 
+// 抽獎按鈕點擊事件
 $(".turntable_btn").on("click", function () {
-  var $this = $(this);
-  $this.attr("disabled", "disabled"); // 禁用按鈕
+  const $button = $(this);
+
+  // 禁用按鈕，避免重複點擊
+  $button.attr("disabled", "disabled");
 
   // 播放抽獎音效
   spinSound.currentTime = 0;
   spinSound.play();
 
-  iEnd = Math.floor(Math.random() * 8); // 隨機選擇獎品
+  // 隨機選擇獎品
+  iEnd = Math.floor(Math.random() * prizeList.length);
   console.log("中獎索引:", iEnd);
 
-  rotating(); // 執行轉盤動畫
+  // 執行轉盤動畫
+  rotating();
 
-  // 3.8 秒後開始漸弱音效
-  setTimeout(function () {
+  // 音效漸弱（動畫播放 3.8 秒後開始）
+  setTimeout(() => {
     fadeOutAudio(spinSound, 200); // 0.2 秒內漸弱音效
   }, 3800);
 
-  // 4 秒後顯示彈窗並播放中獎音樂
-  setTimeout(function () {
+  // 4 秒後顯示彈窗並播放中獎音效
+  setTimeout(() => {
     winSound.currentTime = 0;
     winSound.play();
     showPrizePopup(iEnd);
-    $this.removeAttr("disabled"); // 恢復按鈕
+
+    // 恢復按鈕狀態，準備下一次操作
+    $button.removeAttr("disabled");
   }, 4000);
 });
 
-// 執行轉盤動畫
+// 轉盤動畫函式
 function rotating() {
-  var rotation = iEnd * 45; // 計算旋轉角度
+  // 計算旋轉角度
+  const rotation = iEnd * 45; // 每個獎項 45 度
   $(".polyline, .list ul").css("transform", `rotate(${rotation}deg)`);
-  $(".list ul, .polyline, .circle circle").addClass("go");
+
+  // 清除動畫 class，重新觸發動畫
+  $(".list ul, .polyline, .circle circle").removeClass("go");
+
+  // 強制重繪，確保 class 重設有效
+  setTimeout(() => {
+    $(".list ul, .polyline, .circle circle").addClass("go");
+  }, 10);
 }
 
 // 音效漸弱函式
 function fadeOutAudio(audio, duration) {
-  var step = 0.1;
-  var interval = duration / (audio.volume / step);
-  var fade = setInterval(function () {
+  const step = 0.1;
+  const interval = duration / (audio.volume / step);
+  const fade = setInterval(() => {
     if (audio.volume > step) {
       audio.volume -= step;
     } else {
@@ -72,10 +87,10 @@ function fadeOutAudio(audio, duration) {
   }, interval);
 }
 
-// 顯示中獎彈窗
+// 顯示中獎彈窗函式
 function showPrizePopup(prizeIndex) {
-  var prize = prize_list[prizeIndex];
-  var $popup = $(`
+  const prize = prizeList[prizeIndex];
+  const $popup = $(`
     <div class="prize-popup">
       <div class="popup-content">
         <h1>恭喜你中了</h1>
@@ -85,15 +100,21 @@ function showPrizePopup(prizeIndex) {
       </div>
     </div>
   `);
+
   $("body").append($popup);
 
   // 點擊按鈕關閉彈窗
-  $popup.find(".close-popup").on("click", function () {
+  $popup.find(".close-popup").on("click", () => {
     $popup.remove();
+
+    // 清除動畫 class，為下一次操作做準備
+    $(".list ul, .polyline, .circle circle").removeClass("go");
   });
 }
 
-// 動態調整轉盤大小
+// 縮放轉盤函式（可根據需求調整）
 function resizeTurntable(scale) {
-  document.querySelector("section.turntable").style.transform = `scale(${scale})`;
+  const turntable = document.querySelector("section.turntable");
+  turntable.style.transform = `scale(${scale})`;
 }
+// resizeTurntable(1.08); // 範例
