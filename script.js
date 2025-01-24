@@ -17,19 +17,16 @@ prize_list.forEach((prize) => {
 
 // 音效設定
 var spinSound = new Audio("./spin.mp3");
-var winSound = new Audio("./win.mp3");
-
-// 抽獎相關變數
-var iEnd = -1;
+var winSoundPath = "./win.mp3"; // 保留音效路徑，動態生成新音效物件
 var isSpinning = false; // 防止重複觸發
+var iEnd = -1; // 紀錄中獎位置
 
 $(".turntable_btn").on("click", function () {
-  if (isSpinning) return; // 防止在轉動過程中多次點擊
-
+  if (isSpinning) return; // 防止重複點擊
   isSpinning = true; // 鎖定按鈕
   var $this = $(this);
 
-  // 播放抽獎音效
+  // 播放轉動音效
   playAudio(spinSound);
 
   // 隨機選擇獎品
@@ -39,29 +36,29 @@ $(".turntable_btn").on("click", function () {
   // 啟動轉盤動畫
   rotateTurntable(iEnd);
 
-  // 在動畫結束後觸發中獎邏輯
+  // 動畫結束後處理中獎邏輯
   setTimeout(() => {
-    // 停止轉盤音效
+    // 停止轉動音效
     fadeOutAudio(spinSound, 500);
 
-    // 播放中獎音效（重新生成 Audio 對象）
-    winSound = new Audio("./win.mp3"); // 解決多次播放問題
+    // 播放中獎音效
+    let winSound = new Audio(winSoundPath); // 每次生成新的音效物件
     playAudio(winSound);
 
     // 顯示彈窗
     showPrizePopup(iEnd);
 
-    // 解鎖按鈕並重置狀態
+    // 重置狀態
     resetTurntable($this);
-    isSpinning = false;
-  }, 4000); // 4 秒動畫結束
+    isSpinning = false; // 解鎖按鈕
+  }, 4000); // 動畫持續 4 秒
 });
 
 // 播放音效的函式
 function playAudio(audio) {
-  audio.pause(); // 確保先停止
+  audio.pause(); // 確保音效停止
   audio.currentTime = 0; // 從頭播放
-  audio.volume = 1;
+  audio.volume = 1; // 重置音量
   audio.play();
 }
 
