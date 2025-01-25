@@ -1,6 +1,6 @@
 // 獎品項目
 var prize_list = [
-  { name: "年獸征服者", description: "恭喜你成功驅趕了所有年獸！", img: "https://cdn-icons-png.flaticon.com/512/9087/9087851.png" },
+  { name: "iPhone 16", description: "恭喜發財！騙你的拉！", img: "https://cdn-icons-png.flaticon.com/512/644/644458.png" },
   { name: "春聯書法家", description: "無論是字醜還是字美，都貼得上牆！", img: "https://cdn-icons-png.flaticon.com/512/3938/3938712.png" },
   { name: "鞭炮連放王", description: "你的鞭炮聲比隔壁還要響亮！", img: "https://cdn-icons-png.flaticon.com/512/2633/2633725.png" },
   { name: "紅包支配者", description: "你收到的紅包，比支出還要多！", img: "https://cdn-icons-png.flaticon.com/512/18141/18141440.png" },
@@ -29,8 +29,11 @@ $(".turntable_btn").on("click", function () {
   // 播放轉動音效
   playAudio(spinSound);
 
-  // 隨機選擇獎品
-  iEnd = Math.floor(Math.random() * prize_list.length);
+  // 隨機選擇獎品（排除 iPhone 16 的位置）
+  do {
+    iEnd = Math.floor(Math.random() * prize_list.length);
+  } while (prize_list[iEnd].name === "iPhone 16");
+
   console.log("中獎位置：", iEnd);
 
   // 啟動轉盤動畫
