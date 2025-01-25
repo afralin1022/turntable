@@ -29,15 +29,21 @@ $(".turntable_btn").on("click", function () {
   // 播放轉動音效
   playAudio(spinSound);
 
-  // 隨機選擇獎品（排除 iPhone 16 的位置）
-  do {
-    iEnd = Math.floor(Math.random() * prize_list.length);
-  } while (prize_list[iEnd].name === "iPhone 16");
+  // 預計目標角度 (360 度內的某個隨機角度)
+  const randomDegree = Math.random() * 360;
 
-  console.log("中獎位置：", iEnd);
+  // 計算目標的獎品索引
+  let index = Math.floor(randomDegree / (360 / prize_list.length));
+
+  // 如果選中 "iPhone 16"，偏移到相鄰獎項
+  if (prize_list[index].name === "iPhone 16") {
+    index = (index + 1) % prize_list.length; // 偏移到下一個獎項
+  }
+
+  console.log("中獎位置：", index);
 
   // 啟動轉盤動畫
-  rotateTurntable(iEnd);
+  rotateTurntable(index);
 
   // 動畫結束後處理中獎邏輯
   setTimeout(() => {
@@ -49,7 +55,7 @@ $(".turntable_btn").on("click", function () {
     playAudio(winSound);
 
     // 顯示彈窗
-    showPrizePopup(iEnd);
+    showPrizePopup(index);
 
     // 重置狀態
     resetTurntable($this);
